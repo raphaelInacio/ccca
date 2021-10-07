@@ -9,11 +9,15 @@ public class Pedido {
     private Cpf Cpf;
     private LocalDate dataPedido;
     private Cupom cupom;
+    private double frete;
+    private static final double DISTANCIA = 1000;
+    private static final double FRETE_MINIMO = 10.00;
 
     public Pedido(String cpf, LocalDate dataPedido) {
         this.Cpf = new Cpf(cpf);
         this.dataPedido = dataPedido;
         this.itens = new ArrayList<>();
+        this.frete = 0;
     }
 
     public int totalDeItens() {
@@ -21,6 +25,7 @@ public class Pedido {
     }
 
     public void adcionarItem(Item item, int quantidade) {
+        this.frete += ((DISTANCIA * item.getVolume() * (item.getDensidade() / 100)) * quantidade);
         this.itens.add(new ItemDoPedido(item.getIdItem(), item.getDescricao(), item.getValor(), quantidade));
     }
 
@@ -28,17 +33,17 @@ public class Pedido {
         this.cupom = cupom;
     }
 
-    public BigDecimal valorTotal() {
+    public BigDecimal calcularValorDoPedido() {
         BigDecimal valorTotal
                 = itens.stream()
                 .map(ItemDoPedido::valorTotal)
                 .reduce(BigDecimal::add)
                 .get();
-        if (cupom != null) {
-            return cupom.aplicarDesconto(valorTotal, dataPedido);
-        }
-        return valorTotal;
+        return cupom == null ? valorTotal : cupom.aplicarDesconto(valorTotal, dataPedido);
     }
 
 
+    public double obterFrete() {
+        return this.frete <= FRETE_MINIMO ? FRETE_MINIMO : this.frete;
+    }
 }

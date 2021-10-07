@@ -34,7 +34,7 @@ public class PedidoTest {
         pedido.adcionarItem(magicBoard, 1);
         pedido.adcionarItem(magicMouse, 1);
         pedido.adicionarCupom(descontoDezPorcento);
-        Assertions.assertEquals(new BigDecimal(11250), pedido.valorTotal());
+        Assertions.assertEquals(new BigDecimal(11250), pedido.calcularValorDoPedido());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class PedidoTest {
         pedido.adcionarItem(macBookPro, 1);
         pedido.adcionarItem(magicBoard, 2);
         pedido.adcionarItem(magicMouse, 1);
-        Assertions.assertEquals(new BigDecimal(14000), pedido.valorTotal());
+        Assertions.assertEquals(new BigDecimal(14000), pedido.calcularValorDoPedido());
     }
 
     @Test
@@ -60,6 +60,22 @@ public class PedidoTest {
         pedido.adcionarItem(magicBoard, 2);
         pedido.adcionarItem(magicMouse, 1);
         pedido.adicionarCupom(descontoDezPorcentoExpirado);
-        Assertions.assertEquals(new BigDecimal(14000), pedido.valorTotal());
+        Assertions.assertEquals(new BigDecimal(14000), pedido.calcularValorDoPedido());
+    }
+
+    @Test
+    void deveCalcularFrete() {
+        Item geladeira = new Item(1L, "Geladeira", BigDecimal.valueOf(1000), 200.0, 100.0, 50.0, 40.0);
+        Pedido pedido = new Pedido("326.873.088-46", LocalDate.now());
+        pedido.adcionarItem(geladeira, 1);
+        Assertions.assertEquals(400.00, pedido.obterFrete());
+    }
+
+    @Test
+    void deveCalcularFreteMinimo() {
+        Item camera = new Item(1L, "Camera", BigDecimal.valueOf(1000), 20.0, 15.0, 10.0, 1.0);
+        Pedido pedido = new Pedido("326.873.088-46", LocalDate.now());
+        pedido.adcionarItem(camera, 1);
+        Assertions.assertEquals(10.00, pedido.obterFrete());
     }
 }

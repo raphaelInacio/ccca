@@ -4,10 +4,10 @@ public class Item {
     private Long idItem;
     private String descricao;
     private BigDecimal valor;
-    private Long altura = 0L;
-    private Long largura = 0L;
-    private Long profundidade = 0L;
-    private Long peso;
+    private Double altura = 0.0;
+    private Double largura = 0.0;
+    private Double profundidade = 0.0;
+    private Double peso = 0.0;
 
     public Item(Long idItem, String descricao, BigDecimal valor) {
         this.idItem = idItem;
@@ -15,7 +15,7 @@ public class Item {
         this.valor = valor;
     }
 
-    public Item(Long idItem, String descricao, BigDecimal valor, Long largura, Long altura, Long profundidade, Long peso) {
+    public Item(Long idItem, String descricao, BigDecimal valor, Double largura, Double altura, Double profundidade, Double peso) {
         this.idItem = idItem;
         this.descricao = descricao;
         this.valor = valor;
@@ -43,6 +43,6 @@ public class Item {
     }
 
     public Double getDensidade() {
-        return this.peso / getVolume();
+        return Double.valueOf(Math.round(this.peso / getVolume()));
     }
 }
