@@ -13,22 +13,6 @@ public class ItemDoPedido {
         this.quantidade = quantidade;
     }
 
-    public Long getIdItem() {
-        return idItem;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
     public BigDecimal valorTotal() {
         return BigDecimal.valueOf(quantidade).multiply(valor);
     }

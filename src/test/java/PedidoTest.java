@@ -2,17 +2,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class PedidoTest {
 
     @Test
     void naoDeveCriarUmPedidoComCPFInvalido() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Pedido("111.111.111-11"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Pedido("111.111.111-11", LocalDate.now()));
     }
 
     @Test
     void deveCriarUmPedidoComTresItens() {
-        Pedido pedido = new Pedido("326.873.088-46");
+        Pedido pedido = new Pedido("326.873.088-46", LocalDate.now());
         Item macBookPro = new Item(1L, "Mac book pro", new BigDecimal(10000));
         Item magicMouse = new Item(2L, "Magic Mouse", new BigDecimal(1000));
         Item magicBoard = new Item(3L, "Magic board", new BigDecimal(1500));
@@ -24,8 +25,8 @@ public class PedidoTest {
 
     @Test
     void deveAplicarPercentualDeDescontoSobreUmPedido() {
-        Cupom descontoDezPorcento = new Cupom("VALE10", 10);
-        Pedido pedido = new Pedido("326.873.088-46");
+        Cupom descontoDezPorcento = new Cupom("VALE10", 10, LocalDate.now());
+        Pedido pedido = new Pedido("326.873.088-46", LocalDate.now());
         Item macBookPro = new Item(1L, "Mac book pro", new BigDecimal(10000));
         Item magicMouse = new Item(2L, "Magic Mouse", new BigDecimal(1000));
         Item magicBoard = new Item(3L, "Magic board", new BigDecimal(1500));
@@ -38,13 +39,27 @@ public class PedidoTest {
 
     @Test
     void quandoNaoInformadoCupomDeDescontoDeveSerAplicadoValorCheio() {
-        Pedido pedido = new Pedido("326.873.088-46");
+        Pedido pedido = new Pedido("326.873.088-46", LocalDate.now());
         Item macBookPro = new Item(1L, "Mac book pro", new BigDecimal(10000));
         Item magicMouse = new Item(2L, "Magic Mouse", new BigDecimal(1000));
         Item magicBoard = new Item(3L, "Magic board", new BigDecimal(1500));
         pedido.adcionarItem(macBookPro, 1);
         pedido.adcionarItem(magicBoard, 2);
         pedido.adcionarItem(magicMouse, 1);
+        Assertions.assertEquals(new BigDecimal(14000), pedido.valorTotal());
+    }
+
+    @Test
+    void naoDeveAplicarDescontoEmUmCupomExpirado() {
+        Cupom descontoDezPorcentoExpirado = new Cupom("VALE10", 10, LocalDate.now().minusDays(1L));
+        Pedido pedido = new Pedido("326.873.088-46", LocalDate.now());
+        Item macBookPro = new Item(1L, "Mac book pro", new BigDecimal(10000));
+        Item magicMouse = new Item(2L, "Magic Mouse", new BigDecimal(1000));
+        Item magicBoard = new Item(3L, "Magic board", new BigDecimal(1500));
+        pedido.adcionarItem(macBookPro, 1);
+        pedido.adcionarItem(magicBoard, 2);
+        pedido.adcionarItem(magicMouse, 1);
+        pedido.adicionarCupom(descontoDezPorcentoExpirado);
         Assertions.assertEquals(new BigDecimal(14000), pedido.valorTotal());
     }
 }

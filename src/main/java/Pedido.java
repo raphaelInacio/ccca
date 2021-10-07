@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,10 +7,12 @@ public class Pedido {
 
     private List<ItemDoPedido> itens;
     private Cpf Cpf;
+    private LocalDate dataPedido;
     private Cupom cupom;
 
-    public Pedido(String cpf) {
+    public Pedido(String cpf, LocalDate dataPedido) {
         this.Cpf = new Cpf(cpf);
+        this.dataPedido = dataPedido;
         this.itens = new ArrayList<>();
     }
 
@@ -32,7 +35,7 @@ public class Pedido {
                 .reduce(BigDecimal::add)
                 .get();
         if (cupom != null) {
-            return cupom.aplicarDesconto(valorTotal);
+            return cupom.aplicarDesconto(valorTotal, dataPedido);
         }
         return valorTotal;
     }

@@ -1,17 +1,29 @@
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class Cupom {
 
-    private final String nome;
+    private final String codigo;
     private final int percentual;
+    private LocalDate dataExpiracao;
 
-    public Cupom(String nome, int percentual) {
-        this.nome = nome;
+    public Cupom(String codigo, int percentual, LocalDate dataExpiracao) {
+        this.codigo = codigo;
         this.percentual = percentual;
+        this.dataExpiracao = dataExpiracao;
     }
 
-    public BigDecimal aplicarDesconto(BigDecimal valor) {
-        BigDecimal desconto = valor.multiply(new BigDecimal(percentual)).divide(new BigDecimal(100));
+    public BigDecimal aplicarDesconto(BigDecimal valor, LocalDate dataAtual) {
+        if (cupomExpirado(dataAtual)) {
+            return valor;
+        }
+        BigDecimal desconto = valor
+                .multiply(BigDecimal.valueOf(percentual))
+                .divide(BigDecimal.valueOf(100));
         return valor.subtract(desconto);
+    }
+
+    private boolean cupomExpirado(LocalDate dataAtual) {
+        return dataExpiracao.isBefore(dataAtual);
     }
 }
