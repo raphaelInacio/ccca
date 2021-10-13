@@ -1,10 +1,9 @@
+import br.com.ccca.domain.entity.Cupom;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CupomTest {
 

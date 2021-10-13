@@ -1,3 +1,6 @@
+import br.com.ccca.domain.entity.Cupom;
+import br.com.ccca.domain.entity.Item;
+import br.com.ccca.domain.entity.Pedido;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

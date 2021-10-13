@@ -1,3 +1,5 @@
+package br.com.ccca.domain.entity;
+
 import java.util.InputMismatchException;
 
 public class Cpf {

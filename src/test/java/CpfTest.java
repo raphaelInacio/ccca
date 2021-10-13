@@ -1,3 +1,4 @@
+import br.com.ccca.domain.entity.Cpf;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

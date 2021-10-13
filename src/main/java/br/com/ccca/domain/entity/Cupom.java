@@ -1,3 +1,5 @@
+package br.com.ccca.domain.entity;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

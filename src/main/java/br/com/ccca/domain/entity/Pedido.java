@@ -1,3 +1,5 @@
+package br.com.ccca.domain.entity;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ public class Pedido {
     private Cpf Cpf;
     private LocalDate dataPedido;
     private Cupom cupom;
-    private double frete;
+    private double frete = 0.0;
     private static final double DISTANCIA = 1000;
     private static final double FRETE_MINIMO = 10.00;
 
@@ -17,7 +19,6 @@ public class Pedido {
         this.Cpf = new Cpf(cpf);
         this.dataPedido = dataPedido;
         this.itens = new ArrayList<>();
-        this.frete = 0;
     }
 
     public int totalDeItens() {
@@ -41,7 +42,6 @@ public class Pedido {
                 .get();
         return cupom == null ? valorTotal : cupom.aplicarDesconto(valorTotal, dataPedido);
     }
-
 
     public double obterFrete() {
         return this.frete <= FRETE_MINIMO ? FRETE_MINIMO : this.frete;
