@@ -12,7 +12,7 @@ public class PedidoTest {
     }
 
     @Test
-    void deveCriarUmPedidoComTresItens() {
+    void deveCriarUmPedido() {
         Pedido pedido = new Pedido("326.873.088-46", LocalDate.now());
         Item macBookPro = new Item(1L, "Mac book pro", new BigDecimal(10000));
         Item magicMouse = new Item(2L, "Magic Mouse", new BigDecimal(1000));

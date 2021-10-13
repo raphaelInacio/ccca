@@ -14,9 +14,7 @@ public class Cupom {
     }
 
     public BigDecimal aplicarDesconto(BigDecimal valor, LocalDate dataAtual) {
-        if (cupomExpirado(dataAtual)) {
-            return valor;
-        }
+        if (cupomExpirado(dataAtual)) return valor;
         BigDecimal desconto = valor
                 .multiply(BigDecimal.valueOf(percentual))
                 .divide(BigDecimal.valueOf(100));
